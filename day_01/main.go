@@ -39,8 +39,6 @@ func sumTopNCalorieCarryingElves(lines string, n int) int {
 func main() {
 	input := util.ReadSafe("input.txt")
 
-	println(countCaloriesPerElf(input))
-
 	util.ExecuteTimed(1, 1, func() int { return sumTopNCalorieCarryingElves(input, 1) })
 	util.ExecuteTimed(1, 2, func() int { return sumTopNCalorieCarryingElves(input, 3) })
 

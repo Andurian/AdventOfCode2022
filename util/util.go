@@ -8,6 +8,18 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+func SlicesEqual[T comparable](a []T, b []T) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if v != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
 type Number interface {
 	constraints.Float | constraints.Integer | constraints.Complex
 }
