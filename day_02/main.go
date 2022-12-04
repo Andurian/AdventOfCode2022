@@ -49,19 +49,13 @@ func translateToOutcome(c byte, elfChoice Shape) Shape {
 }
 
 func gamesFromString(input string, translateInstruction InstructionTranslator) []Game {
-	games := []Game{}
-	for _, line := range strings.Split(input, "\n") {
-		games = append(games, gameFromString(strings.TrimSpace(line), translateInstruction))
-	}
-	return games
+	toGame := func(s string) Game { return gameFromString(strings.TrimSpace(s), translateInstruction) }
+	return util.Transform(strings.Split(input, "\n"), toGame)
 }
 
 func totalScore(input string, translateInstruction InstructionTranslator) int {
-	score := 0
-	for _, game := range gamesFromString(input, translateInstruction) {
-		score += game.Score()
-	}
-	return score
+	score := func(g Game) int { return g.Score() }
+	return util.AccumulateFunc(gamesFromString(input, translateInstruction), score)
 }
 
 func main() {
