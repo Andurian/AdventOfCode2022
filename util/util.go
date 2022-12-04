@@ -3,6 +3,7 @@ package util
 import (
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"golang.org/x/exp/constraints"
@@ -32,6 +33,29 @@ func Accumulate[T Number](values []T) T {
 	return sum
 }
 
+func AccumulateFunc[T any, N Number](arr []T, f func(T) N) N {
+	var sum N
+	for _, val := range arr {
+		sum += f(val)
+	}
+	return sum
+}
+
+func Transform[T any, U any](arr []T, f func(T) U) []U {
+	transformed := []U{}
+	for _, val := range arr {
+		transformed = append(transformed, f(val))
+	}
+	return transformed
+}
+
+func Btoi(b bool) int {
+	if b {
+		return 1
+	}
+	return 0
+}
+
 func Max(x int, y int) int {
 	if x > y {
 		return x
@@ -51,10 +75,24 @@ func ReadSafe(filename string) string {
 	return string(data)
 }
 
+func PreprocessTimed[T any](f func() T) T {
+	start := time.Now()
+	result := f()
+	elapsed := time.Since(start)
+	log.Printf("Preprocessing done (%s)", elapsed)
+	return result
+}
+
 func ExecuteTimed(day int, task int, f func() int) {
 	start := time.Now()
 	result := f()
 	elapsed := time.Since(start)
 	log.Printf("Day %02d-%d: %d (%s)", day, task, result, elapsed)
 
+}
+
+func AtoiSafe(s string) int {
+	val, err := strconv.Atoi(s)
+	Check(err)
+	return val
 }
