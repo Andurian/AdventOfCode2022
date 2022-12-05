@@ -3,6 +3,7 @@ package util
 import (
 	"os"
 	"strconv"
+	"strings"
 
 	"golang.org/x/exp/constraints"
 )
@@ -34,11 +35,19 @@ func Check(err error) {
 func ReadSafe(filename string) string {
 	data, err := os.ReadFile(filename)
 	Check(err)
-	return string(data)
+	return strings.ReplaceAll(string(data), "\r\n", "\n")
 }
 
 func AtoiSafe(s string) int {
 	val, err := strconv.Atoi(s)
 	Check(err)
 	return val
+}
+
+func IsEmptyString(s string) bool {
+	return s == ""
+}
+
+func IsNotEmptyString(s string) bool {
+	return !IsEmptyString(s)
 }
