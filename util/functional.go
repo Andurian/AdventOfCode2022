@@ -23,3 +23,25 @@ func Transform[T any, U any](arr []T, f func(T) U) []U {
 	}
 	return transformed
 }
+
+func Filter[T any](arr []T, f func(T) bool) []T {
+	filtered := []T{}
+	for _, val := range arr {
+		if f(val) {
+			filtered = append(filtered, val)
+		}
+	}
+	return filtered
+}
+
+func Reverse[T any](s []T) []T {
+	a := make([]T, len(s))
+	copy(a, s)
+
+	for i := len(a)/2 - 1; i >= 0; i-- {
+		opp := len(a) - 1 - i
+		a[i], a[opp] = a[opp], a[i]
+	}
+
+	return a
+}
