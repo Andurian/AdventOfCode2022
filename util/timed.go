@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func PreprocessTimed[T any](f func() T) T {
+func PreprocessTimed[T any](f func() *T) *T {
 	start := time.Now()
 	result := f()
 	elapsed := time.Since(start)
