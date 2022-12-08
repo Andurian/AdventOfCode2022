@@ -5,7 +5,15 @@ import (
 	"time"
 )
 
-func PreprocessTimed[T any](f func() *T) *T {
+func PreprocessTimed[T any](f func() T) T {
+	start := time.Now()
+	result := f()
+	elapsed := time.Since(start)
+	log.Printf("Preprocessing done (%s)", elapsed)
+	return result
+}
+
+func PreprocessTimedPointer[T any](f func() *T) *T {
 	start := time.Now()
 	result := f()
 	elapsed := time.Since(start)

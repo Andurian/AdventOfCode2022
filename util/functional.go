@@ -16,10 +16,26 @@ func AccumulateFunc[T any, N Number](arr []T, f func(T) N) N {
 	return sum
 }
 
+func AccumulateMapFunc[K, V comparable, N Number](m map[K]V, f func(V) N) N {
+	var sum N
+	for _, val := range m {
+		sum += f(val)
+	}
+	return sum
+}
+
 func Transform[T any, U any](arr []T, f func(T) U) []U {
 	transformed := []U{}
 	for _, val := range arr {
 		transformed = append(transformed, f(val))
+	}
+	return transformed
+}
+
+func TransformMap[K, V comparable, T any](m map[K]V, f func(V) T) map[K]T {
+	transformed := make(map[K]T)
+	for k, v := range m {
+		transformed[k] = f(v)
 	}
 	return transformed
 }

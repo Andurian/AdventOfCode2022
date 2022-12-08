@@ -51,3 +51,16 @@ func IsEmptyString(s string) bool {
 func IsNotEmptyString(s string) bool {
 	return !IsEmptyString(s)
 }
+
+func CopyMap[K, V comparable](m map[K]V) map[K]V {
+	result := make(map[K]V)
+	for k, v := range m {
+		result[k] = v
+	}
+	return result
+}
+
+func MapContainsKey[K, V comparable](m map[K]V, k K) bool {
+	_, ok := m[k]
+	return ok
+}
