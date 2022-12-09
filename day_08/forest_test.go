@@ -2,6 +2,7 @@ package main
 
 import (
 	"andurian/adventofcode/2022/util"
+	. "andurian/adventofcode/2022/util/point"
 	"reflect"
 	"testing"
 )
@@ -9,11 +10,11 @@ import (
 func TestForestFromString(t *testing.T) {
 	input := util.ReadSafe("input_test.txt")
 	expected := map[Point]int{
-		{0, 0}: 3, {0, 1}: 0, {0, 2}: 3, {0, 3}: 7, {0, 4}: 3,
-		{1, 0}: 2, {1, 1}: 5, {1, 2}: 5, {1, 3}: 1, {1, 4}: 2,
-		{2, 0}: 6, {2, 1}: 5, {2, 2}: 3, {2, 3}: 3, {2, 4}: 2,
-		{3, 0}: 3, {3, 1}: 3, {3, 2}: 5, {3, 3}: 4, {3, 4}: 9,
-		{4, 0}: 3, {4, 1}: 5, {4, 2}: 3, {4, 3}: 9, {4, 4}: 0}
+		{Row: 0, Col: 0}: 3, {Row: 0, Col: 1}: 0, {Row: 0, Col: 2}: 3, {Row: 0, Col: 3}: 7, {Row: 0, Col: 4}: 3,
+		{Row: 1, Col: 0}: 2, {Row: 1, Col: 1}: 5, {Row: 1, Col: 2}: 5, {Row: 1, Col: 3}: 1, {Row: 1, Col: 4}: 2,
+		{Row: 2, Col: 0}: 6, {Row: 2, Col: 1}: 5, {Row: 2, Col: 2}: 3, {Row: 2, Col: 3}: 3, {Row: 2, Col: 4}: 2,
+		{Row: 3, Col: 0}: 3, {Row: 3, Col: 1}: 3, {Row: 3, Col: 2}: 5, {Row: 3, Col: 3}: 4, {Row: 3, Col: 4}: 9,
+		{Row: 4, Col: 0}: 3, {Row: 4, Col: 1}: 5, {Row: 4, Col: 2}: 3, {Row: 4, Col: 3}: 9, {Row: 4, Col: 4}: 0}
 	actual := ForestFromString(input).heights
 
 	if !reflect.DeepEqual(actual, expected) {
@@ -36,8 +37,8 @@ func TestForestScenicScore(t *testing.T) {
 		input    Point
 		expected int
 	}{
-		{Point{1, 2}, 4},
-		{Point{3, 2}, 8},
+		{Point{Row: 1, Col: 2}, 4},
+		{Point{Row: 3, Col: 2}, 8},
 	}
 
 	forest := ForestFromString(util.ReadSafe("input_test.txt"))

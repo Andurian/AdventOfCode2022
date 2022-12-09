@@ -3,6 +3,8 @@ package main
 import (
 	"andurian/adventofcode/2022/util"
 	"strings"
+
+	. "andurian/adventofcode/2022/util/point"
 )
 
 type Visibility map[Point]bool
@@ -37,7 +39,7 @@ func (f Forest) ScenicScore(pos Point) int {
 		}
 	}
 
-	return viewDistance(pos, up) * viewDistance(pos, right) * viewDistance(pos, down) * viewDistance(pos, left)
+	return viewDistance(pos, Up) * viewDistance(pos, Right) * viewDistance(pos, Down) * viewDistance(pos, Left)
 }
 
 func (f Forest) BestScenicScore() int {
@@ -55,10 +57,10 @@ func (f Forest) VisibilityFrom(pos Direction) Visibility {
 		advanceOuter Next
 		advanceInner Next
 	}{
-		North: {Point{0, 0}, right, down},
-		East:  {Point{0, f.cols - 1}, down, left},
-		South: {Point{f.rows - 1, f.cols - 1}, left, up},
-		West:  {Point{f.rows - 1, 0}, up, right},
+		North: {Point{Row: 0, Col: 0}, Right, Down},
+		East:  {Point{Row: 0, Col: f.cols - 1}, Down, Left},
+		South: {Point{Row: f.rows - 1, Col: f.cols - 1}, Left, Up},
+		West:  {Point{Row: f.rows - 1, Col: 0}, Up, Right},
 	}
 
 	adjustVisibility := func(visibility Visibility, start Point, next Next) {
@@ -102,8 +104,8 @@ func (f Forest) CountVisibleTrees() int {
 }
 
 func (f Forest) Contains(p Point) bool {
-	return p.row >= 0 && p.row < f.rows &&
-		p.col >= 0 && p.col < f.cols
+	return p.Row >= 0 && p.Row < f.rows &&
+		p.Col >= 0 && p.Col < f.cols
 }
 
 func ForestFromString(input string) Forest {
@@ -117,7 +119,7 @@ func ForestFromString(input string) Forest {
 	for row, line := range lines {
 		line = strings.TrimSpace(line)
 		for col, char := range line {
-			heights[Point{row, col}] = util.AtoiSafe(string(char))
+			heights[Point{Row: row, Col: col}] = util.AtoiSafe(string(char))
 		}
 	}
 
