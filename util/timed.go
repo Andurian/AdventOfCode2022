@@ -42,3 +42,10 @@ func ExecuteTimedString(day int, task int, f func() string) {
 	elapsed := time.Since(start)
 	log.Printf("Day %02d-%d: %s (%s)", day, task, result, elapsed)
 }
+
+func ExecuteTimedStringMultiline(day int, task int, f func() string) {
+	start := time.Now()
+	result := f()
+	elapsed := time.Since(start)
+	log.Printf("Day %02d-%d (%s):\n%s", day, task, elapsed, result)
+}
