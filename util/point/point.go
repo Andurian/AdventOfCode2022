@@ -54,3 +54,7 @@ func Are4Neighbors(p1 Point, p2 Point) bool {
 
 	return dRow <= 1 && dCol == 0 || dRow == 0 && dCol <= 1
 }
+
+func Get4Neighbors(p Point) []Point {
+	return util.Transform([]func(Point) Point{Up, Right, Down, Left}, func(f func(Point) Point) Point { return f(p) })
+}
