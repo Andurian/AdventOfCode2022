@@ -33,6 +33,13 @@ func Min(x int, y int) int {
 	return y
 }
 
+func MinMax(x, y int) (min, max int) {
+	if x < y {
+		return x, y
+	}
+	return y, x
+}
+
 func Abs(x int) int {
 	if x < 0 {
 		return -x
@@ -77,4 +84,12 @@ func CopyMap[K, V comparable](m map[K]V) map[K]V {
 func MapContainsKey[K, V comparable](m map[K]V, k K) bool {
 	_, ok := m[k]
 	return ok
+}
+
+func TryGetFromMap[K, V comparable](m map[K]V, k K, defaultValue V) V {
+	val, ok := m[k]
+	if ok {
+		return val
+	}
+	return defaultValue
 }

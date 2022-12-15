@@ -16,21 +16,14 @@ func (p Point) String() string {
 
 type Next func(p Point) Point
 
-func Left(p Point) Point {
-	return Point{p.Row, p.Col - 1}
-}
-
-func Right(p Point) Point {
-	return Point{p.Row, p.Col + 1}
-}
-
-func Up(p Point) Point {
-	return Point{p.Row - 1, p.Col}
-}
-
-func Down(p Point) Point {
-	return Point{p.Row + 1, p.Col}
-}
+func Left(p Point) Point      { return Point{p.Row + 0, p.Col - 1} }
+func Right(p Point) Point     { return Point{p.Row + 0, p.Col + 1} }
+func Up(p Point) Point        { return Point{p.Row - 1, p.Col + 0} }
+func Down(p Point) Point      { return Point{p.Row + 1, p.Col + 0} }
+func DownLeft(p Point) Point  { return Point{p.Row + 1, p.Col - 1} }
+func DownRight(p Point) Point { return Point{p.Row + 1, p.Col + 1} }
+func UpLeft(p Point) Point    { return Point{p.Row - 1, p.Col - 1} }
+func UpRight(p Point) Point   { return Point{p.Row - 1, p.Col + 1} }
 
 func AbsDistances(p1 Point, p2 Point) (dRow int, dCol int) {
 	dRow = util.Abs(p2.Row - p1.Row)
