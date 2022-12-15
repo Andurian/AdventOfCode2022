@@ -93,3 +93,12 @@ func TryGetFromMap[K, V comparable](m map[K]V, k K, defaultValue V) V {
 	}
 	return defaultValue
 }
+
+func IndexOf[T comparable](arr []T, value T) int {
+	for i, v := range arr {
+		if v == value {
+			return i
+		}
+	}
+	return -1
+}

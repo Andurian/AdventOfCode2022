@@ -37,6 +37,11 @@ func Distances(p1 Point, p2 Point) (dRow int, dCol int) {
 	return
 }
 
+func ManhattanDistance(p1, p2 Point) int {
+	dRow, dCol := AbsDistances(p1, p2)
+	return dRow + dCol
+}
+
 func Are8Neighbors(p1 Point, p2 Point) bool {
 	dRow, dCol := AbsDistances(p1, p2)
 	return dRow <= 1 && dCol <= 1
