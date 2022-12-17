@@ -59,8 +59,8 @@ type Network struct {
 
 func (n *Network) MaxRemainingFlow() int {
 	sum := 0
-	for _, v := range n.pressures {
-		sum += n.currentTime * v
+	for k, v := range n.pressures {
+		sum += util.Max(n.currentTime-n.distances.Distance(n.currentValve, k)-1, 0) * v
 	}
 	return sum
 }

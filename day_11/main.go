@@ -26,25 +26,31 @@ type Monkey struct {
 
 type Arena struct {
 	monkeys []*Monkey
+	lcm     uint64
 }
 
 func (m *Monkey) InspectNext() (nextMonkexId int, item *Item) {
 	item = m.items[0]
 	m.items = m.items[1:]
 
+	item.start = m.op(item.start)
 	for k, v := range item.remainderClasses {
 		item.remainderClasses[k] = m.op(v)
 	}
 
-	item.remainderClasses[m.testDiv] %= m.testDiv
+	testStart := item.start%m.testDiv == 0
+	testClass := item.remainderClasses[m.testDiv]%m.testDiv == 0
 
-	item.start = m.op(item.start)
+	if testStart != testClass {
+		println("fuuu")
+	}
 
 	if item.start%m.testDiv == 0 {
 		nextMonkexId = m.onTrue
 	} else {
 		nextMonkexId = m.onFalse
 	}
+
 	m.numInspected += 1
 	return
 }
@@ -58,26 +64,13 @@ func (m *Monkey) CatchItem(item *Item) {
 }
 
 func (a *Arena) TryCleanup() {
-	total := uint64(1)
-	for _, m := range a.monkeys {
-		total *= m.testDiv
-	}
 	for _, m := range a.monkeys {
 		for i := range m.items {
-			//m.items[i].start %= total
-			if m.items[i].start%total == 0 {
-				m.items[i].start = 0
+			m.items[i].start %= a.lcm
+
+			for k := range m.items[i].remainderClasses {
+				m.items[i].remainderClasses[k] %= k
 			}
-			// divsAll := true
-			// for _, m2 := range a.monkeys {
-			// 	if item.current%m2.testDiv != 0 {
-			// 		divsAll = false
-			// 		break
-			// 	}
-			// }
-			// if divsAll {
-			// 	m.items[i].current = m.items[i].start
-			// }
 		}
 	}
 }
@@ -97,14 +90,23 @@ func (a *Arena) Round() {
 }
 
 func NewArena(monkeys []*Monkey) *Arena {
+	var lcm uint64 = 1
+	dividers := []uint64{}
+
+	for _, m := range monkeys {
+		lcm *= m.testDiv
+		dividers = append(dividers, m.testDiv)
+	}
+
 	for _, m := range monkeys {
 		for _, i := range m.items {
-			for _, m2 := range monkeys {
-				i.remainderClasses[m2.testDiv] = i.start
+			for _, d := range dividers {
+				i.remainderClasses[d] = i.start
 			}
 		}
 	}
-	return &Arena{monkeys}
+
+	return &Arena{monkeys, lcm}
 }
 
 func (a *Arena) MonkeyBusiness() int {

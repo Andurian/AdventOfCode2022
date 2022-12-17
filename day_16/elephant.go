@@ -35,9 +35,10 @@ func (n *NetworkWithElephant) IdMirrored() id {
 
 func (n *NetworkWithElephant) MaxRemainingFlow() int {
 	sum := 0
-	t := util.Max(n.currentTimeElephant, n.currentTimeHuman)
-	for _, v := range n.pressures {
-		sum += t * v
+	for k, v := range n.pressures {
+		flowByHuman := util.Max(n.currentTimeHuman-n.distances.Distance(n.currentValveHuman, k)-1, 0) * v
+		flowByElephant := util.Max(n.currentTimeElephant-n.distances.Distance(n.currentValveElephant, k)-1, 0) * v
+		sum += util.Max(flowByElephant, flowByHuman)
 	}
 	return sum
 }
@@ -139,9 +140,8 @@ func Task2(s string) {
 
 	bestSoFar := []*NetworkWithElephant{}
 
-	allKeys := make(map[id]bool)
-
 	for len(options) > 0 {
+		allKeys := make(map[id]bool)
 		newOptions := []*NetworkWithElephant{}
 
 		for _, option := range options {

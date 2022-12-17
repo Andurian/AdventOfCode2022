@@ -56,3 +56,11 @@ func Are4Neighbors(p1 Point, p2 Point) bool {
 func Get4Neighbors(p Point) []Point {
 	return util.Transform([]func(Point) Point{Up, Right, Down, Left}, func(f func(Point) Point) Point { return f(p) })
 }
+
+func Add(a, b Point) Point {
+	return Point{a.Row + b.Row, a.Col + b.Col}
+}
+
+func Subtract(a, b Point) Point {
+	return Point{a.Row - b.Row, a.Col - b.Col}
+}
