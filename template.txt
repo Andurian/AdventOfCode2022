@@ -1,0 +1,8 @@
+package main
+
+import "andurian/adventofcode/2022/util"
+
+func main() {
+	input := util.ReadSafe("input.txt")
+	println(input)
+}

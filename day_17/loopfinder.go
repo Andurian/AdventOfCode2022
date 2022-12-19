@@ -9,18 +9,17 @@ import (
 )
 
 type LoopFindingChamber struct {
-	width              int
-	windProvider       *WindProvider
-	shapes             []PlacedShape
-	shapesPreviousLoop []PlacedShape
-	shapesCurrentLoop  []PlacedShape
-	occupied           mapset.Set[point.Point]
-	topRow             int
+	width        int
+	windProvider *WindProvider
+	shapes       []PlacedShape
+	shapesLoop   []PlacedShape
+	occupied     mapset.Set[point.Point]
+	topRow       int
 }
 
 func NewLoopFindingChamber(width int, windProvider *WindProvider) *LoopFindingChamber {
 	return &LoopFindingChamber{
-		width, windProvider, []PlacedShape{}, []PlacedShape{}, []PlacedShape{}, mapset.NewSet[point.Point](), -1,
+		width, windProvider, []PlacedShape{}, []PlacedShape{}, mapset.NewSet[point.Point](), -1,
 	}
 }
 
@@ -101,36 +100,30 @@ func (c *LoopFindingChamber) DropShape(s Shape) (bool, LoopInfo) {
 		if c.windProvider.currentIndex != 1 {
 			return false, false
 		}
-		// println("Potential Loop")
-		// fmt.Printf("\tLength: %d\n", len(c.shapesCurrentLoop))
-
-		//fmt.Printf("\tType: %d - %d\n", int(p.shapeType), int(c.shapesCurrentLoop[0].shapeType))
-		if p.shapeType != c.shapesCurrentLoop[0].shapeType {
+		if p.shapeType != c.shapesLoop[0].shapeType {
 			return true, false
 		}
-		//fmt.Printf("\tOffset: %d - %d\n", p.offset.Col, c.shapesCurrentLoop[0].offset.Col)
-		return true, p.offset.Col == c.shapesCurrentLoop[0].offset.Col
+		return true, p.offset.Col == c.shapesLoop[0].offset.Col
 	}
 
 	windLooped, shapeLooped := looping(p)
 
 	if shapeLooped {
 		totalLength := len(c.shapes)
-		loopLength := len(c.shapesCurrentLoop)
+		loopLength := len(c.shapesLoop)
 		baseLength := totalLength - loopLength
 		totalHeight := c.topRow
-		loopHeight := Height(c.shapesCurrentLoop)
+		loopHeight := Height(c.shapesLoop)
 		baseHeight := totalHeight - loopHeight
-		return true, LoopInfo{baseLength, baseHeight, loopLength, loopHeight, c.shapesCurrentLoop}
+		return true, LoopInfo{baseLength, baseHeight, loopLength, loopHeight, c.shapesLoop}
 	}
 
 	if windLooped {
-		c.shapesPreviousLoop = c.shapesCurrentLoop
-		c.shapesCurrentLoop = []PlacedShape{}
+		c.shapesLoop = []PlacedShape{}
 	}
 
 	c.shapes = append(c.shapes, p)
-	c.shapesCurrentLoop = append(c.shapesCurrentLoop, p)
+	c.shapesLoop = append(c.shapesLoop, p)
 	for x := range p.Occupied().Iter() {
 		c.topRow = util.Max(c.topRow, x.Row)
 		c.occupied.Add(x)
