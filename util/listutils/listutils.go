@@ -3,6 +3,7 @@ package listutils
 import (
 	"andurian/adventofcode/2022/util"
 	"container/list"
+	"fmt"
 )
 
 func CleanIndex(l *list.List, i int) int {
@@ -80,4 +81,16 @@ func ElementAtNaive(l *list.List, target int) *list.Element {
 	}
 
 	return current
+}
+
+func ToString(l *list.List) string {
+	s := "["
+	for elem := l.Front(); elem != nil; elem = elem.Next() {
+		if elem != l.Front() {
+			s += ", "
+		}
+		s += fmt.Sprintf("%v", elem.Value)
+	}
+	s += "]"
+	return s
 }

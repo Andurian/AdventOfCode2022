@@ -4,7 +4,6 @@ import (
 	"andurian/adventofcode/2022/util"
 	"andurian/adventofcode/2022/util/listutils"
 	"container/list"
-	"fmt"
 	"strings"
 )
 
@@ -124,18 +123,6 @@ func parse(input string) *list.List {
 		ret.PushBack(util.AtoiSafe(line))
 	}
 	return ret
-}
-
-func printList(l *list.List) {
-	s := "["
-	for elem := l.Front(); elem != nil; elem = elem.Next() {
-		if elem != l.Front() {
-			s += ", "
-		}
-		s += fmt.Sprintf("%v", elem.Value)
-	}
-	s += "]"
-	println(s)
 }
 
 func main() {
