@@ -22,5 +22,6 @@ use (
 	./day_19
 	./day_20
 	./day_21
+	./day_22
 	./util
 )
