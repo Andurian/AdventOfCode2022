@@ -57,6 +57,10 @@ func Get4Neighbors(p Point) []Point {
 	return util.Transform([]func(Point) Point{Up, Right, Down, Left}, func(f func(Point) Point) Point { return f(p) })
 }
 
+func Get8Neighbors(p Point) []Point {
+	return util.Transform([]func(Point) Point{UpLeft, Up, UpRight, Right, DownRight, Down, DownLeft, Left}, func(f func(Point) Point) Point { return f(p) })
+}
+
 func Add(a, b Point) Point {
 	return Point{a.Row + b.Row, a.Col + b.Col}
 }
