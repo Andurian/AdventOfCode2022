@@ -81,7 +81,7 @@ func CopyMap[K, V comparable](m map[K]V) map[K]V {
 	return result
 }
 
-func MapContainsKey[K, V comparable](m map[K]V, k K) bool {
+func MapContainsKey[K comparable, V any](m map[K]V, k K) bool {
 	_, ok := m[k]
 	return ok
 }
